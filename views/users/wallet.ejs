@@ -1,0 +1,33 @@
+<%- include('../partials/header') %>
+
+<table>
+    <thead>
+        <tr>
+            <th>Wallet Address:</th>
+            <th>Balance:</th>
+            <th>Deposit:</th>
+            <th>View Items:</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% wallets.forEach(function(w) { %>
+            <tr>
+              <td><%= w._id %></td>
+              <td><%= w.balance %></td>
+              <td>
+                <form action="/users/wallet/<%= w._id %>" method="POST">
+                    <input type="number" name="balance" placeholder="Enter amount here" min="0">
+                    <button type="submit">Deposit</button>
+                </form>
+            </td>
+              <td><form><button>View Items</button></form></td>
+            </tr>
+        <% }); %>
+    </tbody>
+</table>
+
+<form action="/users/wallet/new" method="POST">
+    <button type="submit">Add New Wallet</button>
+</form>
+
+<%- include('../partials/footer') %>

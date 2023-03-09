@@ -1,0 +1,16 @@
+<%- include('../partials/header') %>
+
+<form id="mint-form" action="/collections" method="POST">
+  <label>Collection name:</label>
+  <input type="text" name="name" required>
+  
+  <label>NFT name:</label>
+  <input type="text" name="nfts[0][name]" required>
+
+  <label>Description:</label>
+  <input type="text" name="nfts[0][name]" required>
+  
+  <input type="submit" value="Add Collection">
+</form>
+
+<%- include('../partials/footer') %>
