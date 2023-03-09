@@ -7,6 +7,7 @@
             <th>Balance:</th>
             <th>Deposit:</th>
             <th>View Items:</th>
+            <th>Set Active:</th>
         </tr>
     </thead>
     <tbody>
@@ -19,8 +20,10 @@
                     <input type="number" name="balance" placeholder="Enter amount here" min="0">
                     <button type="submit">Deposit</button>
                 </form>
-            </td>
+              </td>
               <td><form><button>View Items</button></form></td>
+              <!-- <td><form action="/users/wallet/setactive/<%= w._id %>" method="POST"><button type="submit">Set Active</button></form></td> -->
+              <td><form action="/users/wallet" method="POST"><input type="hidden" name="activeWallet" value="<%= w._id %>"><button type="submit">Set Active</button></form></td>
             </tr>
         <% }); %>
     </tbody>

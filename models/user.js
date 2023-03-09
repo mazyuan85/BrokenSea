@@ -23,7 +23,7 @@ const userSchema = new Schema({
     wallets: {
         type: [walletSchema],
         default: [],
-    } 
+    }
 });
 
 const User = mongoose.model('User', userSchema);

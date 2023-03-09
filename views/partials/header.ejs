@@ -14,6 +14,12 @@
     <% if (locals.userId) { %>
       <a href="/collections/mint">Mint Collection</a>
       <a href="/users/wallet">My Wallets</a>
+      <% if (activeWallet) { %>
+        <div class="active-wallet">
+          <span><%= activeWallet._id %></span>
+          <span><%= activeWallet.balance %></span>
+        </div>
+      <% } %>
       <form action="/users/logout" method="POST">
         <button type="submit">Logout</button>
       </form>

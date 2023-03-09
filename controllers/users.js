@@ -52,7 +52,9 @@ const walletPage = async (req, res) => {
     const userId = req.session.userId
     const user = await User.findById(userId).populate("wallets");
     const wallets = user.wallets;
-    await res.render("users/wallet", { title: "My Wallets", wallets})
+    const activeWalletId = req.cookies.activeWallet;
+    const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
+    await res.render("users/wallet", { title: "My Wallets", wallets, activeWallet})
 }
 
 const walletDeposit = async (req,res) => {
@@ -62,9 +64,11 @@ const walletDeposit = async (req,res) => {
     const wallets = user.wallets;
     const walletIndex = user.wallets.findIndex(w => w._id.toString() === req.params.id);
     const wallet = user.wallets[walletIndex];
+    const activeWalletId = req.cookies.activeWallet;
+    const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
     wallet.balance += parseInt(deposit);
     await user.save();
-    res.render("users/wallet", { title: "My Wallets", wallets})
+    res.render("users/wallet", { title: "My Wallets", wallets, activeWallet})
 }
 
 const walletNew = async (req, res) => {
@@ -72,10 +76,28 @@ const walletNew = async (req, res) => {
     const user = await User.findById(userId);
     const newWallet = new Wallet({balance:0});
     user.wallets.push(newWallet);
+    const activeWalletId = req.cookies.activeWallet;
+    const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
     await user.save();
     const wallets = user.wallets;
-    res.render("users/wallet", { title: "My Wallets", wallets})
+    res.render("users/wallet", { title: "My Wallets", wallets, activeWallet})
 }
+
+const walletActive = async (req, res) => {
+    try {
+      const activeWalletId = req.body.activeWallet;
+      if (activeWalletId) {
+        res.cookie("activeWallet", activeWalletId);
+      }
+      const userId = req.session.userId;
+      const user = await User.findById(userId).populate("wallets");
+      await res.redirect("/users/wallet");
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error retrieving active wallet");
+    }
+  }
+  
 
 module.exports = {
     registerPage,
@@ -85,5 +107,6 @@ module.exports = {
     logout,
     walletPage,
     walletDeposit,
-    walletNew
+    walletNew,
+    walletActive
 };
