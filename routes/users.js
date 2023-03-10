@@ -10,6 +10,7 @@ router.post('/logout', usersCtrl.logout);
 router.get('/wallet', usersCtrl.walletPage);
 router.post('/wallet/new', usersCtrl.walletNew);
 router.post('/wallet', usersCtrl.walletActive);
-router.post('/wallet/:id', usersCtrl.walletDeposit);
+router.post('/wallet/:id/deposit', usersCtrl.walletDeposit);
+router.post('/wallet/:id', usersCtrl.walletItems);
 
 module.exports = router;

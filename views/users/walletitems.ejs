@@ -1,0 +1,20 @@
+<%- include('../partials/header') %>
+
+<h3>Wallet: <%=currentWalletId %></h3>
+
+<%=currentWallet %>
+
+<ul>
+    <% currentWallet.forEach((collection) => { %>
+      <li><%= collection.name %></li>
+      <ul>
+        <% collection.nfts.forEach((nft) => { %>
+            <li>
+                <%= nft.name %> - <a href="/collections/<%= collection._id%>/<%= nft._id%>"><img src="<%= nft.imageUrl %>" width="300"></a>
+            </li>
+        <% }) %>
+      </ul>
+    <% }) %>
+  </ul>
+
+<%- include('../partials/footer') %>

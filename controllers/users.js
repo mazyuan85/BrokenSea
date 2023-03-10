@@ -1,4 +1,5 @@
 const { User, Wallet } = require("../models/user");
+const Collection = require("../models/collection");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -96,7 +97,26 @@ const walletActive = async (req, res) => {
       console.error(err);
       res.status(500).send("Error retrieving active wallet");
     }
-  }
+}
+
+const walletItems = async (req, res) => {
+    try {
+        const userId = req.session.userId
+        const user = await User.findById(userId).populate("wallets");
+        const wallets = user.wallets;
+        const activeWalletId = req.cookies.activeWallet;
+        const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
+
+        const currentWalletId = req.params.id;
+        const currentWallet = await Collection.find({ "nfts.wallet" : currentWalletId});
+      
+        await res.render("users/walletitems", { title: "My Items", wallets, activeWallet, currentWalletId, currentWallet})
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Error retrieving wallet items");
+    }
+}
   
 
 module.exports = {
@@ -108,5 +128,6 @@ module.exports = {
     walletPage,
     walletDeposit,
     walletNew,
-    walletActive
+    walletActive,
+    walletItems
 };

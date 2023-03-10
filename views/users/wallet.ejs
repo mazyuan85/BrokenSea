@@ -16,13 +16,13 @@
               <td><%= w._id %></td>
               <td><%= w.balance %></td>
               <td>
-                <form action="/users/wallet/<%= w._id %>" method="POST">
+                <form action="/users/wallet/<%= w._id %>/deposit" method="POST">
                     <input type="number" name="balance" placeholder="Enter amount here" min="0">
                     <button type="submit">Deposit</button>
                 </form>
               </td>
               <td>
-                <form>
+                <form action="/users/wallet/<%= w._id %>" method="POST">
                     <button>View Items</button>
                 </form>
               </td>
