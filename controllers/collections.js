@@ -1,6 +1,6 @@
 const Collection = require("../models/collection");
 const { User, Wallet } = require("../models/user");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 
 const mintPage = async (req, res) => {
     const userId = req.session.userId
@@ -37,6 +37,10 @@ const mintCollection = async (req,res) => {
         return res.render("collections/mint", {title:"Mint a New Collection", activeWallet, errorMessage: "Please add at least one NFT"})
       }
 
+      if (!activeWallet) {
+        return res.render("collections/mint", {title:"Mint a New Collection", activeWallet, errorMessage: "Select an active wallet first"})
+      }
+
       for (let i = 0; i < nftName.length; i++) {
         const newNft = {
           name: nftName[i],
@@ -65,33 +69,35 @@ const mintCollection = async (req,res) => {
 }
 
 const itemPage = async (req, res) => {
+    const { collectionId, nftId } = req.params;
+    const collection = await Collection.findById(collectionId);
+    const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
+
+    if (req.session.userId) {
+      const userId = req.session.userId
+      const user = await User.findById(userId).populate("wallets");
+      const activeWalletId = req.cookies.activeWallet;
+      const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
+      await res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft, collection})
+    } else {
+      await res.render("collections/item", {title:`${nft.name}`, errorMessage: null, nft, collection})  
+    }
+
+}
+
+const collectionPage = async (req, res) => {
+    const { collectionId } = req.params;
+    const collection = await Collection.findById(collectionId);
+
+    if (req.session.userId) {
     const userId = req.session.userId
     const user = await User.findById(userId).populate("wallets");
     const activeWalletId = req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-
-    const { collectionId, nftId } = req.params;
-    const collection = await Collection.findById(collectionId);
-    const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
-    // if (!nft) {
-    //   return res.status(404).render('error', { message: 'NFT not found' });
-    // }
-    await res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft, collection})
-}
-
-const collectionPage = async (req, res) => {
-  const userId = req.session.userId
-  const user = await User.findById(userId).populate("wallets");
-  const activeWalletId = req.cookies.activeWallet;
-  const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-
-  const { collectionId } = req.params;
-  const collection = await Collection.findById(collectionId);
-  // const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
-  // if (!nft) {
-  //   return res.status(404).render('error', { message: 'NFT not found' });
-  // }
-  await res.render("collections/collection", {title:`${collection.name}`, activeWallet, errorMessage: null, collection})
+    await res.render("collections/collection", {title:`${collection.name}`, activeWallet, errorMessage: null, collection})
+    } else {
+    await res.render("collections/collection", {title:`${collection.name}`, errorMessage: null, collection})
+    }
 }
 
 const burnNft = async (req, res) => {

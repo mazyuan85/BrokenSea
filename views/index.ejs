@@ -1,3 +1,13 @@
 <%- include('./partials/header') %>
 
+<div>
+    <ul>
+        <% allCollections.forEach((collection) => { %>
+            <li>
+                <a href="/collections/<%= collection._id%>"><img src="<%= collection.imageUrl %>" width="400"><%= collection.name %></a>
+            </li>
+        <% }) %>
+    </ul>
+</div>
+
 <%- include('./partials/footer') %>

@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
 <h3><a href="/collections/<%=collection._id%>"><%=collection.name%></a></h3>
 
-<div><img src="<%- nft.imageUrl %>"></div>
+<div><img src="<%- nft.imageUrl %>" width="500"></div>
 <div>
     <table>
         <tr>
@@ -21,10 +21,12 @@
 </div>
 
 <div>
-    <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
-        <button>List Item</button>
-    <% } else { %>
-        <button>Buy Item</button>
+    <% if (activeWallet && nft) { %>
+        <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
+            <button>List Item</button>
+        <% } else { %>
+            <button>Buy Item</button>
+        <% } %>
     <% } %>
 </div>
 
