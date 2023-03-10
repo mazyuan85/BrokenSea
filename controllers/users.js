@@ -46,6 +46,7 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     await req.session.destroy();
+    res.clearCookie("activeWallet");
     res.redirect('/');
 }
 

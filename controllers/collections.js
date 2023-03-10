@@ -111,11 +111,16 @@ const burnNft = async (req, res) => {
     await res.redirect('/users/wallet');
 }
 
+const indexPage = async (req, res) => {
+  await res.redirect("/")
+}
+
 module.exports = {
     mintPage,
     mintCollection,
     collectionsPage,
     burnNft,
     itemPage,
-    collectionPage
+    collectionPage,
+    indexPage
 };
