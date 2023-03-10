@@ -63,9 +63,23 @@ const mintCollection = async (req,res) => {
     }
 }
 
+const itemPage = async (req, res) => {
+    const userId = req.session.userId
+    const user = await User.findById(userId).populate("wallets");
+    const activeWalletId = req.cookies.activeWallet;
+    const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
+
+    const { collectionId, nftId } = req.params;
+    const collection = await Collection.findById(collectionId);
+    const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
+    // if (!nft) {
+    //   return res.status(404).render('error', { message: 'NFT not found' });
+    // }
+    await res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft})
+}
+
 const burnNft = async (req, res) => {
     const { collectionId, nftId } = req.params;
-    console.log(req.params);
 
     const collection = await Collection.findById(collectionId);
     collection.nfts.pull(nftId);
@@ -79,5 +93,6 @@ module.exports = {
     mintPage,
     mintCollection,
     collectionsPage,
-    burnNft
+    burnNft,
+    itemPage
 };

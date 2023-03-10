@@ -5,7 +5,7 @@ const collectionsCtrl = require('../controllers/collections');
 router.get('/mint', collectionsCtrl.mintPage);
 router.post('/mint', collectionsCtrl.mintCollection);
 router.delete('/:collectionId/:nftId', collectionsCtrl.burnNft);
-// router.get('/', collectionsCtrl.collectionsPage);
+router.get('/:collectionId/:nftId', collectionsCtrl.itemPage);
 
 
 module.exports = router;

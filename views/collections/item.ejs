@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+
+<div><img src="<%- nft.imageUrl %>"></div>
+<div>
+    <table>
+        <tr>
+            <th>Description:</th>
+            <td><%= nft.description %></td>
+        </tr>
+        <tr>
+            <th>Attributes:</th>
+            <td><%= nft.attributes %></td>
+
+        </tr>
+        <tr>
+            <th>Owner:</th>
+            <td><%= nft.wallet %></td>
+        </tr>
+    </table>
+</div>
+
+<div>
+    <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
+        <button>List Item</button>
+    <% } else { %>
+        <button>Buy Item</button>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>
