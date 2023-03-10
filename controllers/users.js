@@ -117,7 +117,6 @@ const walletItems = async (req, res) => {
       res.status(500).send("Error retrieving wallet items");
     }
 }
-  
 
 module.exports = {
     registerPage,

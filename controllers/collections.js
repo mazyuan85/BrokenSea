@@ -2,12 +2,16 @@ const Collection = require("../models/collection");
 const { User, Wallet } = require("../models/user");
 const mongoose = require("mongoose");
 
-const mintPage = async (req,res) => {
+const mintPage = async (req, res) => {
     const userId = req.session.userId
     const user = await User.findById(userId).populate("wallets");
     const activeWalletId = req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-    await res.render("./collections/mint", {title:"Mint a New Collection", activeWallet, errorMessage: null})
+    await res.render("collections/mint", {title:"Mint a New Collection", activeWallet, errorMessage: null})
+}
+
+const collectionsPage = async (req, res) => {
+
 }
 
 const mintCollection = async (req,res) => {
@@ -59,7 +63,21 @@ const mintCollection = async (req,res) => {
     }
 }
 
+const burnNft = async (req, res) => {
+    const { collectionId, nftId } = req.params;
+    console.log(req.params);
+
+    const collection = await Collection.findById(collectionId);
+    collection.nfts.pull(nftId);
+
+    await collection.save();
+   
+    await res.redirect('/users/wallet');
+}
+
 module.exports = {
     mintPage,
-    mintCollection
+    mintCollection,
+    collectionsPage,
+    burnNft
 };

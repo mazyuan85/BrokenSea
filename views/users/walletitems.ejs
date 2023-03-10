@@ -11,6 +11,8 @@
         <% collection.nfts.forEach((nft) => { %>
             <li>
                 <%= nft.name %> - <a href="/collections/<%= collection._id%>/<%= nft._id%>"><img src="<%= nft.imageUrl %>" width="300"></a>
+                <form action="/collections/<%= collection._id %>/<%= nft._id %>?_method=DELETE" method="POST">
+                    <button type="submit">BURN</button></form>
             </li>
         <% }) %>
       </ul>
