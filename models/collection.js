@@ -14,8 +14,8 @@ const nftSchema = new Schema({
         required: true
     },
     attributes: {
-        type: Map,
-        of: String
+        type: String,
+        required: true
     },
     wallet: {
         type: Schema.Types.ObjectId,

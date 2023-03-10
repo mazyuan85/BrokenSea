@@ -1,16 +1,71 @@
 <%- include('../partials/header') %>
 
-<form id="mint-form" action="/collections" method="POST">
+<form action="/collections/mint" method="POST">
   <label>Collection name:</label>
   <input type="text" name="name" required>
   
-  <label>NFT name:</label>
-  <input type="text" name="nfts[0][name]" required>
+  <div id="nftForms"></div>
 
-  <label>Description:</label>
-  <input type="text" name="nfts[0][name]" required>
-  
-  <input type="submit" value="Add Collection">
+  <button type="button" onclick="addNftForm()">Add NFT</button>
+  <button type="button" onclick="deleteNftForm()">Delete NFT</button>
+  <button type="submit">Mint Collection</button>
+
+  <% if (errorMessage) { %>
+    <p><%= errorMessage %></p>
+  <% } %>
 </form>
+
+<script>
+function addNftForm() {
+  const nftForms = document.getElementById("nftForms");
+
+  const formContainer = document.createElement("div");
+  formContainer.classList.add("nft-form");
+
+  const nameLabel = document.createElement("label");
+  nameLabel.textContent = "Name:";
+  const nameInput = document.createElement("input");
+  nameInput.type = "text";
+  nameInput.name = "nftName";
+  nameInput.required = "true";
+  formContainer.appendChild(nameLabel);
+  formContainer.appendChild(nameInput);
+
+  const descriptionLabel = document.createElement("label");
+  descriptionLabel.textContent = "Description:";
+  const descriptionInput = document.createElement("input");
+  descriptionInput.type = "text";
+  descriptionInput.name = "nftDescription";
+  formContainer.appendChild(descriptionLabel);
+  formContainer.appendChild(descriptionInput);
+
+  const imageUrlLabel = document.createElement("label");
+  imageUrlLabel.textContent = "Image URL:";
+  const imageUrlInput = document.createElement("input");
+  imageUrlInput.type = "text";
+  imageUrlInput.name = "nftImageUrl";
+  imageUrlInput.required = "true";
+  formContainer.appendChild(imageUrlLabel);
+  formContainer.appendChild(imageUrlInput);
+
+  const attributesLabel = document.createElement("label");
+  attributesLabel.textContent = "Attributes:";
+  const attributesInput = document.createElement("input");
+  attributesInput.type = "text";
+  attributesInput.name = "nftAttributes";
+  attributesInput.required = "true";
+  formContainer.appendChild(attributesLabel);
+  formContainer.appendChild(attributesInput);
+
+  nftForms.appendChild(formContainer);
+}
+
+function deleteNftForm() {
+    const nftForm = document.querySelector('.nft-form:last-of-type');
+    if (nftForm) {
+      nftForm.remove();
+    }
+  }
+</script>
 
 <%- include('../partials/footer') %>
