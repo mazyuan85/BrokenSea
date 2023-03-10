@@ -39,6 +39,10 @@ const nftSchema = new Schema({
         ref: "User",
         required: true
     },
+    imageUrl: {
+        type: String,
+        required: true
+    },
     nfts: [nftSchema]
   })
 

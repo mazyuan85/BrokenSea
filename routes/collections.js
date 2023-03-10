@@ -6,6 +6,7 @@ router.get('/mint', collectionsCtrl.mintPage);
 router.post('/mint', collectionsCtrl.mintCollection);
 router.delete('/:collectionId/:nftId', collectionsCtrl.burnNft);
 router.get('/:collectionId/:nftId', collectionsCtrl.itemPage);
+router.get('/:collectionId', collectionsCtrl.collectionPage);
 
 
 module.exports = router;

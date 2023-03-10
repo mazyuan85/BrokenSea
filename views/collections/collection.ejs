@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+
+<div>
+    <img src="<%=collection.imageUrl%>">
+</div>
+<div>
+    <table>
+        <tr>
+            <th>Creator:</th>
+            <td><%= collection.creator %></td>
+        </tr>
+        <tr>
+            <th>Creation Date:</th>
+            <td><%= collection.creationDate %></td>
+
+        </tr>
+        <tr>
+            <th>Total Number Of Items:</th>
+            <td><%= collection.nfts.length %></td>
+        </tr>
+    </table>
+</div>
+
+<ul>
+    <% collection.nfts.forEach((nft) => { %>
+        <li>
+            <%= nft.name %> - <a href="/collections/<%= collection._id%>/<%= nft._id%>"><img src="<%= nft.imageUrl %>" width="300"></a>
+        </li>
+    <% }) %>
+</ul>
+
+<%- include('../partials/footer') %>

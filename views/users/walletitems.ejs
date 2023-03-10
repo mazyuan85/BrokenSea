@@ -4,17 +4,17 @@
 
 <ul>
     <% currentWallet.forEach((collection) => { %>
-      <li><%= collection.name %></li>
+      <li><a href="/collections/<%= collection.id %>"><%= collection.name %></a></li>
       <ul>
         <% collection.nfts.forEach((nft) => { %>
             <li>
-                <%= nft.name %> - <a href="/collections/<%= collection._id%>/<%= nft._id%>"><img src="<%= nft.imageUrl %>" width="300"></a>
+                <a href="/collections/<%= collection._id%>/<%= nft._id%>"><%= nft.name %> - <img src="<%= nft.imageUrl %>" width="300"></a>
                 <form action="/collections/<%= collection._id %>/<%= nft._id %>?_method=DELETE" method="POST">
                     <button type="submit">BURN</button></form>
             </li>
         <% }) %>
       </ul>
     <% }) %>
-  </ul>
+</ul>
 
 <%- include('../partials/footer') %>

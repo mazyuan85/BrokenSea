@@ -15,7 +15,7 @@ const collectionsPage = async (req, res) => {
 }
 
 const mintCollection = async (req,res) => {
-    let { name, nftName, nftDescription, nftImageUrl, nftAttributes } = req.body;
+    let { name, imageUrl, nftName, nftDescription, nftImageUrl, nftAttributes } = req.body;
     const userId = req.session.userId;
     const user = await User.findById(userId).populate("wallets");
     const activeWalletId = req.cookies.activeWallet;
@@ -51,6 +51,7 @@ const mintCollection = async (req,res) => {
   
       const newCollection = new Collection({
         name,
+        imageUrl,
         creator: user,
         nfts
       });
@@ -75,7 +76,22 @@ const itemPage = async (req, res) => {
     // if (!nft) {
     //   return res.status(404).render('error', { message: 'NFT not found' });
     // }
-    await res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft})
+    await res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft, collection})
+}
+
+const collectionPage = async (req, res) => {
+  const userId = req.session.userId
+  const user = await User.findById(userId).populate("wallets");
+  const activeWalletId = req.cookies.activeWallet;
+  const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
+
+  const { collectionId } = req.params;
+  const collection = await Collection.findById(collectionId);
+  // const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
+  // if (!nft) {
+  //   return res.status(404).render('error', { message: 'NFT not found' });
+  // }
+  await res.render("collections/collection", {title:`${collection.name}`, activeWallet, errorMessage: null, collection})
 }
 
 const burnNft = async (req, res) => {
@@ -94,5 +110,6 @@ module.exports = {
     mintCollection,
     collectionsPage,
     burnNft,
-    itemPage
+    itemPage,
+    collectionPage
 };
