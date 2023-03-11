@@ -86,7 +86,8 @@ const itemPage = async (req, res) => {
     const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
     const listedItem = await Marketplace.findOne({ nft: nftId});
     if (listedItem) {
-      listedStatus = listedItem.isListed
+      listedStatus = listedItem.isListed;
+      listedPrice = listedItem.listedPrice;
     } else {
       listedStatus = false;
     }
@@ -96,9 +97,9 @@ const itemPage = async (req, res) => {
       const user = await User.findById(userId).populate("wallets");
       const activeWalletId = req.cookies.activeWallet;
       const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-      await res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft, collection, listedStatus})
+      await res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft, collection, listedStatus, listedPrice})
     } else {
-      await res.render("collections/item", {title:`${nft.name}`, errorMessage: null, nft, collection, listedStatus})  
+      await res.render("collections/item", {title:`${nft.name}`, errorMessage: null, nft, collection, listedStatus, listedPrice})  
     }
 
 }
