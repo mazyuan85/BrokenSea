@@ -12,6 +12,7 @@ require('./config/database');
 var collectionsRouter = require('./routes/collections');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var marketplacesRouter = require('./routes/marketplaces');
 
 var app = express();
 
@@ -43,6 +44,7 @@ const setUser = (req, res, next) => {
 };
 app.use(setUser);
 
+app.use('/', marketplacesRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/collections', collectionsRouter);

@@ -10,8 +10,19 @@ const mintPage = async (req, res) => {
     await res.render("collections/mint", {title:"Mint a New Collection", activeWallet, errorMessage: null})
 }
 
-const collectionsPage = async (req, res) => {
-
+const allCollectionsPage = async (req, res) => {
+  const allCollections = await Collection.find()
+    
+  if (req.session.userId) {
+  const userId = req.session.userId
+  const user = await User.findById(userId).populate("wallets");
+  const activeWalletId = req.cookies.activeWallet;
+  const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
+  await res.render("collections/all", { title: 'View All Collections', activeWallet, allCollections})
+  }
+  else {
+      await res.render("collections/all", { title: 'View All Collections', allCollections})
+  }
 }
 
 const mintCollection = async (req,res) => {
@@ -118,7 +129,7 @@ const indexPage = async (req, res) => {
 module.exports = {
     mintPage,
     mintCollection,
-    collectionsPage,
+    allCollectionsPage,
     burnNft,
     itemPage,
     collectionPage,

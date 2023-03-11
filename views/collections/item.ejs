@@ -23,7 +23,7 @@
 <div>
     <% if (activeWallet && nft) { %>
         <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
-            <button>List Item</button>
+            <form method ="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/list"><input type="number" name="listedPrice" placeholder="input list price"><button>List Item</button></form>
         <% } else { %>
             <button>Buy Item</button>
         <% } %>
