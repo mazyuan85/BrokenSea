@@ -5,7 +5,8 @@ const marketplaceSchema = new Schema({
     nft: {
         type: Schema.Types.ObjectId,
         ref: "Collection",
-        required: true
+        required: true,
+        unique: true
     },
     isListed: {
         type: Boolean,
@@ -13,7 +14,8 @@ const marketplaceSchema = new Schema({
         required: true
     },
     listedPrice: {
-        type: Number
+        type: Number,
+        min: 0
     },
     transactions: [{
         buyer: { 

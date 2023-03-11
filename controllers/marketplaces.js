@@ -5,8 +5,6 @@ const Marketplace = require("../models/marketplace");
 const listItem = async (req, res) => {
     const { collectionId, nftId } = req.params;
     const { listedPrice } = req.body;
-    const collection = await Collection.findById(collectionId);
-    const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
     const listingItem = await Marketplace.findOne({ nft: nftId});
     // first-time listing
     if (!listingItem) {
@@ -17,19 +15,18 @@ const listItem = async (req, res) => {
         })
 
         await newListing.save();
-    // subsequent listing
+    // update listing price
     } else {
-        const updatePrice = await Marketplace.findOneAndUpdate({nft: nftId}, {$set : { "listedPrice": listedPrice }})
+        const updatePrice = await Marketplace.findOneAndUpdate({nft: nftId}, {$set : { "listedPrice": listedPrice, "isListed": true }})
     }
-
-
-    console.log("collection is " + collection);
-    console.log("NFT is " + nft);
-    console.log("Listed price is " + listedPrice);
-
     await res.redirect(`/collections/${collectionId}/${nftId}`)
 }
 
+const delistItem = async (req, res) => {
+    const { collectionId, nftId } = req.params;
+    const delistItem = await Marketplace.findOneAndUpdate({nft: nftId}, {$set : { "listedPrice": 0, "isListed": false }})
+    await res.redirect(`/collections/${collectionId}/${nftId}`)
+}
 // const indexPage = async (req, res) => {
 //     const allCollections = await Collection.find()
     
@@ -46,5 +43,6 @@ const listItem = async (req, res) => {
 // }
 
 module.exports = {
-    listItem
+    listItem,
+    delistItem
 };

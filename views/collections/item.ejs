@@ -28,6 +28,11 @@
             <button>Buy Item</button>
         <% } %>
     <% } %>
+    <% if (activeWallet && nft && listedStatus) { %>
+        <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
+            <form method ="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/delist"><button>Delist Item</button></form> 
+        <% } %>
+    <% } %>
 </div>
 
   
