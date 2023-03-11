@@ -90,6 +90,7 @@ const itemPage = async (req, res) => {
       listedPrice = listedItem.listedPrice;
     } else {
       listedStatus = false;
+      listedPrice = 0;
     }
 
     if (req.session.userId) {

@@ -25,7 +25,7 @@
 <div>
     <% if (activeWallet && nft) { %>
         <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
-            <form method ="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/list">
+            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/list">
                 <input type="number" name="listedPrice" placeholder="your price here">
                 <% if (listedStatus) { %>
                     <button>Update Price</button>
@@ -33,13 +33,18 @@
                     <button>List Item</button>
                 <% } %>
             </form>
-        <% } else { %>
-            <button>Buy Item</button>
+        <% } else if (listedStatus) { %>
+            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/buy">
+                <button <% if (activeWallet.balance < listedPrice) { %>disabled<%}%>>Buy Item</button> 
+                <% if (activeWallet.balance < listedPrice) { %><h4>You have insufficient balance!</h4><%}%>
+            </form>
+        <% } else { %>             
         <% } %>
+
     <% } %>
     <% if (activeWallet && nft && listedStatus) { %>
         <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
-            <form method ="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/delist"><button>Delist Item</button></form> 
+            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/delist"><button>Delist Item</button></form> 
         <% } %>
     <% } %>
 </div>

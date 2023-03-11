@@ -6,7 +6,7 @@
     <% currentWallet.forEach((collection) => { %>
       <li><a href="/collections/<%= collection.id %>"><%= collection.name %></a></li>
       <ul>
-        <% collection.nfts.forEach((nft) => { %>
+        <% collection.nfts.filter((nft) => nft.wallet.toString() === currentWalletId).forEach((nft) => { %>
             <li>
                 <a href="/collections/<%= collection._id%>/<%= nft._id%>"><%= nft.name %> - <img src="<%= nft.imageUrl %>" width="300"></a>
                 <form action="/collections/<%= collection._id %>/<%= nft._id %>?_method=DELETE" method="POST">
