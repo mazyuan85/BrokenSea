@@ -26,10 +26,4 @@ const userSchema = new Schema({
     }
 });
 
-const User = mongoose.model('User', userSchema);
-const Wallet = mongoose.model('Wallet', walletSchema);
-
-module.exports = {
-    User,
-    Wallet
-}
+module.exports = mongoose.model('User', userSchema);

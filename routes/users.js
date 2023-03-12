@@ -12,5 +12,6 @@ router.post('/wallet/new', usersCtrl.walletNew);
 router.post('/wallet', usersCtrl.walletActive);
 router.post('/wallet/:id/deposit', usersCtrl.walletDeposit);
 router.post('/wallet/:id', usersCtrl.walletItems);
+router.get('/wallet/:id', usersCtrl.walletItems);
 
 module.exports = router;

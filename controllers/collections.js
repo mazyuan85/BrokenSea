@@ -1,18 +1,9 @@
 const Collection = require("../models/collection");
 const Marketplace = require("../models/marketplace");
-const { User, Wallet } = require("../models/user");
-// const mongoose = require("mongoose");
-
-const mintPage = async (req, res) => {
-    const userId = req.session.userId
-    const user = await User.findById(userId).populate("wallets");
-    const activeWalletId = req.cookies.activeWallet;
-    const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-    await res.render("collections/mint", {title:"Mint a New Collection", activeWallet, errorMessage: null})
-}
+const User = require("../models/user");
 
 const allCollectionsPage = async (req, res) => {
-  const allCollections = await Collection.find()
+  const allCollections = await Collection.find({});
     
   if (req.session.userId) {
   const userId = req.session.userId
@@ -24,7 +15,15 @@ const allCollectionsPage = async (req, res) => {
   else {
       await res.render("collections/all", { title: 'View All Collections', allCollections})
   }
-}
+};
+
+const mintPage = async (req, res) => {
+    const userId = req.session.userId
+    const user = await User.findById(userId).populate("wallets");
+    const activeWalletId = req.cookies.activeWallet;
+    const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
+    await res.render("collections/mint", {title:"Mint a New Collection", activeWallet, errorMessage: null})
+};
 
 const mintCollection = async (req,res) => {
     let { name, imageUrl, nftName, nftDescription, nftImageUrl, nftAttributes } = req.body;
@@ -78,7 +77,7 @@ const mintCollection = async (req,res) => {
       console.error(err);
       res.status(500).send("Error minting collection" + err.message);
     }
-}
+};
 
 const itemPage = async (req, res) => {
     const { collectionId, nftId } = req.params;
@@ -102,8 +101,7 @@ const itemPage = async (req, res) => {
     } else {
       await res.render("collections/item", {title:`${nft.name}`, errorMessage: null, nft, collection, listedStatus, listedPrice})  
     }
-
-}
+};
 
 const collectionPage = async (req, res) => {
     const { collectionId } = req.params;
@@ -118,22 +116,17 @@ const collectionPage = async (req, res) => {
     } else {
     await res.render("collections/collection", {title:`${collection.name}`, errorMessage: null, collection})
     }
-}
+};
 
 const burnNft = async (req, res) => {
     const { collectionId, nftId } = req.params;
-
     const collection = await Collection.findById(collectionId);
+    const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
+    const owner = nft.wallet.toString();
     collection.nfts.pull(nftId);
-
     await collection.save();
-   
-    await res.redirect('/users/wallet');
-}
-
-const indexPage = async (req, res) => {
-  await res.redirect("/")
-}
+    await res.redirect(`/users/wallet/${owner}/`);
+};
 
 module.exports = {
     mintPage,
@@ -141,6 +134,5 @@ module.exports = {
     allCollectionsPage,
     burnNft,
     itemPage,
-    collectionPage,
-    indexPage
+    collectionPage
 };
