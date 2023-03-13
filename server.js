@@ -41,23 +41,20 @@ app.use(session({
   store: sessionStore
 }));
 app.use(methodOverride('_method'));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use((req, res, next) => {
   res.locals.activeWallet = req.cookies.activeWallet;
   next();
 })
-app.use(express.static(path.join(__dirname, 'public')));
 
 const setUser = async (req, res, next) => {
-  console.log(req.session)
-  console.log("req.session.userId =", req.session.userId);
   if (req.session.userId) {
     res.locals.userId = req.session.userId;
-    console.log("res.locals.userId =", res.locals.userId);
   }
   next();
 };
 app.use(setUser);
-
 
 app.use('/', marketplacesRouter);
 app.use('/', indexRouter);

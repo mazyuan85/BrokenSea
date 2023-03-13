@@ -9,9 +9,9 @@ const indexPage = async (req, res) => {
         const user = await User.findById(userId).populate("wallets");
         const activeWalletId = await req.cookies.activeWallet;
         const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId);
-        await res.render('index', { title: 'Welcome To BrokenSea', activeWallet, allCollections, userId: req.session.userId });
+        res.render('index', { title: 'Welcome To BrokenSea', activeWallet, allCollections });
     } else {
-        await res.render('index', { title: 'Welcome To BrokenSea', allCollections });
+        res.render('index', { title: 'Welcome To BrokenSea', allCollections });
     }
 };
 
