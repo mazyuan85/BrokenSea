@@ -39,10 +39,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 const setUser = async (req, res, next) => {
   if (req.session.userId) {
     res.locals.userId = req.session.userId;
+    console.log("res.locals.userId =", res.locals.userId);
   }
   next();
 };
 app.use(setUser);
+
 
 app.use('/', marketplacesRouter);
 app.use('/', indexRouter);
