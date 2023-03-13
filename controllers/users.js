@@ -41,8 +41,13 @@ const login = async (req, res) => {
         return;
     }
     // assume potential security issue here but to what level do we need to secure our project?
-    req.session.userId = user._id;
-    res.redirect("/");
+    // req.session.userId = user._id;
+    await new Promise((resolve) => {
+        req.session.userId = user._id;
+        resolve();
+      });
+      
+    await res.redirect("/");
 };
 
 const logout = async (req, res) => {
