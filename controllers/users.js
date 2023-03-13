@@ -52,15 +52,15 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     await req.session.destroy();
-    res.clearCookie("activeWallet");
-    res.redirect("/");
+    await res.clearCookie("activeWallet");
+    await res.redirect("/");
 };
 
 const walletPage = async (req, res) => {
-    const userId = req.session.userId;
+    const userId = await req.session.userId;
     const user = await User.findById(userId).populate("wallets");
-    const wallets = user.wallets;
-    const activeWalletId = req.cookies.activeWallet;
+    const wallets = await user.wallets;
+    const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId);
     await res.render("users/wallet", { title: "My Wallets", wallets, activeWallet});
 };
