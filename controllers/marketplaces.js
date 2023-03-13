@@ -18,13 +18,13 @@ const listItem = async (req, res) => {
     } else {
         const updatePrice = await Marketplace.findOneAndUpdate({nft: nftId}, {$set : { "listedPrice": listedPrice, "isListed": true }})
     }
-    await res.redirect(`/collections/${collectionId}/${nftId}`)
+    res.redirect(`/collections/${collectionId}/${nftId}`)
 }
 
 const delistItem = async (req, res) => {
     const { collectionId, nftId } = req.params;
     const delistItem = await Marketplace.findOneAndUpdate({nft: nftId}, {$set : { "listedPrice": 0, "isListed": false }})
-    await res.redirect(`/collections/${collectionId}/${nftId}`)
+    res.redirect(`/collections/${collectionId}/${nftId}`)
 }
 
 const buyItem = async (req, res) => {
@@ -33,7 +33,7 @@ const buyItem = async (req, res) => {
     const collection = await Collection.findById(collectionId);
     const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
     const listedPrice = listedItem.listedPrice;
-    const userId = req.session.userId
+    const userId = await req.session.userId
     const user = await User.findById(userId).populate("wallets");
     const activeWalletId = req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
@@ -44,7 +44,7 @@ const buyItem = async (req, res) => {
         const updateOwner = await Collection.findOneAndUpdate({ "nfts._id" : nftId}, {$set : { "nfts.$.wallet": activeWallet._id }})
         const delistItem = await Marketplace.findOneAndUpdate({nft: nftId}, {$set : { "listedPrice": 0, "isListed": false }});
     } 
-    await res.redirect(`/collections/${collectionId}/${nftId}`)
+    res.redirect(`/collections/${collectionId}/${nftId}`)
 }    
 
 module.exports = {

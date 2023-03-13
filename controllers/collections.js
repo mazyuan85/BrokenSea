@@ -27,9 +27,9 @@ const mintPage = async (req, res) => {
 
 const mintCollection = async (req,res) => {
     let { name, imageUrl, nftName, nftDescription, nftImageUrl, nftAttributes } = req.body;
-    const userId = req.session.userId;
+    const userId = await req.session.userId;
     const user = await User.findById(userId).populate("wallets");
-    const activeWalletId = req.cookies.activeWallet;
+    const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
   
     try {
@@ -93,18 +93,18 @@ const itemPage = async (req, res) => {
     }
 
     if (req.session.userId) {
-      const userId = req.session.userId
+      const userId = await req.session.userId
       const user = await User.findById(userId).populate("wallets");
-      const activeWalletId = req.cookies.activeWallet;
+      const activeWalletId = await req.cookies.activeWallet;
       const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-      await res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft, collection, listedStatus, listedPrice})
+      res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft, collection, listedStatus, listedPrice})
     } else {
-      await res.render("collections/item", {title:`${nft.name}`, errorMessage: null, nft, collection, listedStatus, listedPrice})  
+      res.render("collections/item", {title:`${nft.name}`, errorMessage: null, nft, collection, listedStatus, listedPrice})  
     }
 };
 
 const collectionPage = async (req, res) => {
-    const { collectionId } = await req.params;
+    const { collectionId } = req.params;
     const collection = await Collection.findById(collectionId);
 
     if (req.session.userId) {
@@ -112,9 +112,9 @@ const collectionPage = async (req, res) => {
     const user = await User.findById(userId).populate("wallets");
     const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-    await res.render("collections/collection", {title:`${collection.name}`, activeWallet, errorMessage: null, collection, userId: req.session.userId})
+    res.render("collections/collection", {title:`${collection.name}`, activeWallet, errorMessage: null, collection, userId: req.session.userId})
     } else {
-    await res.render("collections/collection", {title:`${collection.name}`, errorMessage: null, collection})
+    res.render("collections/collection", {title:`${collection.name}`, errorMessage: null, collection})
     }
 };
 
@@ -125,7 +125,7 @@ const burnNft = async (req, res) => {
     const owner = nft.wallet.toString();
     collection.nfts.pull(nftId);
     await collection.save();
-    await res.redirect(`/users/wallet/${owner}/`);
+    res.redirect(`/users/wallet/${owner}/`);
 };
 
 module.exports = {

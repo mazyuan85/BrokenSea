@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const registerPage = async (req, res) => {
-    await res.render("users/register", { title: "Register Here", error: "" });
+    res.render("users/register", { title: "Register Here", error: "" });
 };
 
 const register = async (req, res) => {
@@ -25,7 +25,7 @@ const register = async (req, res) => {
 };
 
 const loginPage = async (req, res) => {
-    await res.render("users/login", { title: "Login Here", error: "" });
+    res.render("users/login", { title: "Login Here", error: "" });
 };
 
 const login = async (req, res) => {
@@ -48,13 +48,13 @@ const login = async (req, res) => {
     //     resolve();
     //   });
       
-    await res.redirect("/");
+    res.redirect("/");
 };
 
 const logout = async (req, res) => {
     await req.session.destroy();
     await res.clearCookie("activeWallet");
-    await res.redirect("/");
+    res.redirect("/");
 };
 
 const walletPage = async (req, res) => {
@@ -63,33 +63,33 @@ const walletPage = async (req, res) => {
     const wallets = await user.wallets;
     const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId);
-    await res.render("users/wallet", { title: "My Wallets", wallets, activeWallet});
+    res.render("users/wallet", { title: "My Wallets", wallets, activeWallet});
 };
 
 const walletDeposit = async (req, res) => {
-    const userId = req.session.userId;
+    const userId = await req.session.userId;
     const user = await User.findById(userId).populate("wallets");
     const wallets = user.wallets;
-    const activeWalletId = req.cookies.activeWallet;
+    const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId);
     const deposit = req.body.balance;
     const walletIndex = user.wallets.findIndex(w => w._id.toString() === req.params.id);
     const wallet = user.wallets[walletIndex];
     wallet.balance += parseInt(deposit);
     await user.save();
-    await res.render("users/wallet", { title: "My Wallets", wallets, activeWallet });
+    res.render("users/wallet", { title: "My Wallets", wallets, activeWallet });
 };
 
 const walletNew = async (req, res) => {
-    const userId = req.session.userId;
+    const userId = await req.session.userId;
     const user = await User.findById(userId);
     const wallets = user.wallets;
-    const activeWalletId = req.cookies.activeWallet;
+    const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId);
     const newWallet = {};
     user.wallets.push(newWallet);
     await user.save();
-    await res.render("users/wallet", { title: "My Wallets", wallets, activeWallet})
+    res.render("users/wallet", { title: "My Wallets", wallets, activeWallet})
 };
 
 const walletActive = async (req, res) => {
@@ -98,7 +98,7 @@ const walletActive = async (req, res) => {
       if (activeWalletId) {
         res.cookie("activeWallet", activeWalletId);
       }
-      await res.redirect("/users/wallet");
+      res.redirect("/users/wallet");
     } catch (err) {
       console.error(err);
       res.status(500).send("Error retrieving active wallet");
@@ -107,14 +107,14 @@ const walletActive = async (req, res) => {
 
 const walletItems = async (req, res) => {
     try {
-        const userId = req.session.userId;
+        const userId = await req.session.userId;
         const user = await User.findById(userId).populate("wallets");
         const wallets = user.wallets;
-        const activeWalletId = req.cookies.activeWallet;
+        const activeWalletId = await req.cookies.activeWallet;
         const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId);
         const currentWalletId = req.params.id;
         const currentWallet = await Collection.find({ "nfts.wallet" : currentWalletId });
-        await res.render("users/walletitems", { title: "My Items", wallets, activeWallet, currentWalletId, currentWallet });
+        res.render("users/walletitems", { title: "My Items", wallets, activeWallet, currentWalletId, currentWallet });
     } catch (err) {
       console.error(err);
       res.status(500).send("Error retrieving wallet items");
