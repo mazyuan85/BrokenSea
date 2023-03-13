@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const methodOverride = require("method-override");
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 require('dotenv').config();
 require('./config/database');
@@ -13,6 +14,11 @@ var collectionsRouter = require('./routes/collections');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var marketplacesRouter = require('./routes/marketplaces');
+
+const sessionStore = MongoStore.create({
+  mongoUrl: process.env.DATABASE_URL,
+  collectionName: "sessions",
+})
 
 var app = express();
 
@@ -30,8 +36,9 @@ app.use(session({
   saveUninitialized: true,
   cookie: {
     maxAge: 24 * 60 * 60 * 1000,
-    httpOnly: false
-  }
+    httpOnly: true
+  },
+  store: sessionStore
 }));
 app.use(methodOverride('_method'));
 app.use((req, res, next) => {
