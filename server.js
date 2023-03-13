@@ -38,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const setUser = async (req, res, next) => {
   console.log("i'm running!")
+  console.log("req.session.userId =", req.session.userId);
   if (req.session.userId) {
     res.locals.userId = req.session.userId;
     console.log("res.locals.userId =", res.locals.userId);
