@@ -104,13 +104,13 @@ const itemPage = async (req, res) => {
 };
 
 const collectionPage = async (req, res) => {
-    const { collectionId } = req.params;
+    const { collectionId } = await req.params;
     const collection = await Collection.findById(collectionId);
 
     if (req.session.userId) {
-    const userId = req.session.userId
+    const userId = await req.session.userId
     const user = await User.findById(userId).populate("wallets");
-    const activeWalletId = req.cookies.activeWallet;
+    const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
     await res.render("collections/collection", {title:`${collection.name}`, activeWallet, errorMessage: null, collection})
     } else {
