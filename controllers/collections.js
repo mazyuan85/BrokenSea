@@ -112,7 +112,7 @@ const collectionPage = async (req, res) => {
     const user = await User.findById(userId).populate("wallets");
     const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-    await res.render("collections/collection", {title:`${collection.name}`, activeWallet, errorMessage: null, collection})
+    await res.render("collections/collection", {title:`${collection.name}`, activeWallet, errorMessage: null, collection, userId: req.session.userId})
     } else {
     await res.render("collections/collection", {title:`${collection.name}`, errorMessage: null, collection})
     }
