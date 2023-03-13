@@ -36,7 +36,7 @@ app.use((req, res, next) => {
 })
 app.use(express.static(path.join(__dirname, 'public')));
 
-const setUser = (req, res, next) => {
+const setUser = async (req, res, next) => {
   if (req.session.userId) {
     res.locals.userId = req.session.userId;
   }
