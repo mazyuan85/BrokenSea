@@ -1,32 +1,83 @@
 <%- include('../partials/header') %>
 
-<div>
-    <img src="<%=collection.imageUrl%>">
+<div class="w3-row w3-container">
+    <div style="text-align: center;">
+     <img src="<%=collection.imageUrl%>" width="350px">
+    </div>
+    <div class="w3-center w3-padding-32">
+        <span class="w3-xlarge w3-bottombar w3-border-dark-grey w3-padding-16">Collection Information</span>
+    </div>
+    <div class="w3-col l3 m6 w3-light-grey w3-container w3-padding-8">
+        <h3>Collection Size</h3>
+        <p><%= collection.nfts.length %></p>
+    </div>
+    <div class="w3-col l3 m6 w3-grey w3-container w3-padding-8">
+        <h3>Number Listed</h3>
+        <p><%= listedItems.length %> / <%= collection.nfts.length %></p>
+    </div>
+    <div class="w3-col l3 m6 w3-dark-grey w3-container w3-padding-8">
+        <h3>Created On</h3>
+        <p><%= collection.creationDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
+        </p>
+    </div>
+    <div class="w3-col l3 m6 w3-black w3-container w3-padding-8">
+        <h3>Creator</h3>
+        <p><%= collection.creator %></p>
+    </div>
 </div>
-<div>
-    <table>
-        <tr>
-            <th>Creator:</th>
-            <td><%= collection.creator %></td>
-        </tr>
-        <tr>
-            <th>Creation Date:</th>
-            <td><%= collection.creationDate %></td>
 
-        </tr>
-        <tr>
-            <th>Total Number Of Items:</th>
-            <td><%= collection.nfts.length %></td>
-        </tr>
-    </table>
+<div class="toggle-btn">
+    <input type="checkbox" class="toggle-input" id="toggle">
+    <label for="toggle" class="toggle-label">
+    </label>
+    <span>Listed Items Only</span>
 </div>
 
-<ul>
-    <% collection.nfts.forEach((nft) => { %>
-        <li>
-            <%= nft.name %> - <a href="/collections/<%= collection._id%>/<%= nft._id%>"><img src="<%= nft.imageUrl %>" width="300"></a>
-        </li>
-    <% }) %>
-</ul>
+<div class="w3-row-padding" id="about"></div>
+<% collectionArray.forEach((nft) => { %>
+    <div class="w3-third w3-margin-bottom item<%= nft.isListed ? "listed" : "" %>" style="max-width: 300px;">
+      <div class="w3-card-4" style="min-height: 550px; position: relative;">
+        <a href="/collections/<%= collection._id%>/<%= nft._id%>"><img src="<%= nft.imageUrl %>" alt="<%= nft.name %>" style="width:100%"></a>
+        <div class="w3-container">
+          <a href="/collections/<%= collection._id%>/<%= nft._id%>"><h3><%= nft.name %></h3></a>
+          <p class="w3-opacity">
+            <% if (nft.listedPrice) { %>
+                Listed Price: <%=nft.listedPrice%>
+            <% } else { %>
+                Not Listed
+            <% } %>
+          </p>
+          <p><%= nft.description %></p>
+          <div style="position: absolute; bottom: 0; width: 91%;">
+            <p><a href="/collections/<%= collection._id%>/<%= nft._id%>"><button class="w3-button w3-light-grey w3-block">View Item</button></a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+<% }) %>
+</div>
+
+<script>
+    const toggleBtn = document.querySelector(".toggle-input");
+    toggleBtn.addEventListener("change", () => {
+    const listedItems = document.querySelectorAll(".listed");
+    const nonListedItems = document.querySelectorAll(".item:not(.listed)");
+    if (toggleBtn.checked) {
+        listedItems.forEach(item => {
+        item.style.display = "block";
+        });
+        nonListedItems.forEach(item => {
+        item.style.display = "none";
+        });
+    } else {
+        listedItems.forEach(item => {
+        item.style.display = "none";
+        });
+        nonListedItems.forEach(item => {
+        item.style.display = "block";
+        });
+    }
+    });
+</script>
 
 <%- include('../partials/footer') %>

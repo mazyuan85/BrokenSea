@@ -1,7 +1,7 @@
 <%- include('./partials/header') %>
 
 <div class="wrapper" style="background-color: #f2f2f2; padding: 20px 0; margin-top: 15px;">
-    <div class="w3-container" style="width: 640px; margin: 0 auto; background-color: #f2f2f2w; padding: 20px;">
+    <div class="w3-container" style="width: 640px; margin: 0 auto; background-color: #f2f2f2; padding: 20px;">
         <% allCollections.forEach((collection) => { %>
             <div class="w3-display-container mySlides">
             <a href="/collections/<%= collection._id%>"><img src="<%= collection.imageUrl %>" style="width:100%"></a>
@@ -15,8 +15,7 @@
     
             <div class="w3-center">
                 <% for(let i = 0; i < allCollections.length; i++) { %>               
-                <span class="w3-tag demodots w3-border w3-transparent w3-hover-white" onclick="currentDiv(<%= i %>)"></span>
-
+                <span class="w3-tag demodots w3-border w3-transparent w3-hover-white" onclick="currentDiv(<%=i%>)"></span>
                 <% } %>
             </div>
         </div>

@@ -20,15 +20,36 @@ const allCollectionsPage = async (req, res) => {
 const collectionPage = async (req, res) => {
   const { collectionId } = req.params;
   const collection = await Collection.findById(collectionId);
+  const listedItems = await Marketplace.find({
+    nft: { $in: collection.nfts.map(nft => nft._id) },
+    isListed: true
+  });
+
+  const collectionData = collection.toObject();
+  const collectionArray = collectionData.nfts.map(nft => {
+    return {
+      ...nft,
+      isListed: false, // default value for non-listed items
+      listedPrice: null // default value for non-listed items
+    };
+  });
+
+  listedItems.forEach(listedItem => {
+    const index = collectionArray.findIndex(nft => nft._id.equals(listedItem.nft));
+    if (index !== -1) {
+      collectionArray[index].isListed = listedItem.isListed;
+      collectionArray[index].listedPrice = listedItem.listedPrice;
+    }
+  });
 
   if (req.session.userId) {
     const userId = await req.session.userId
     const user = await User.findById(userId).populate("wallets");
     const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-    res.render("collections/collection", { title:`${collection.name}`, activeWallet, errorMessage: null, collection })
+    res.render("collections/collection", { title:`${collection.name}`, activeWallet, errorMessage: null, collection, listedItems, collectionArray })
   } else {
-    res.render("collections/collection", { title:`${collection.name}`, errorMessage: null, collection })
+    res.render("collections/collection", { title:`${collection.name}`, errorMessage: null, collection, listedItems, collectionArray})
   }
 };
 

@@ -1,3 +1,42 @@
 td {
   padding: 4px;
 }
+
+.toggle-btn {
+  display: inline-block;
+  margin: 20px 20px;
+}
+
+.toggle-input {
+  display: none;
+}
+
+.toggle-label {
+  display: block;
+  position: relative;
+  height: 30px;
+  width: 80px;
+  background-color: #ccc;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.toggle-label:before {
+  content: "";
+  position: absolute;
+  top: 2.5px;
+  left: 7px;
+  height: 24px;
+  width: 34px;
+  background-color: #fff;
+  border-radius: 20px;
+  transition: transform 0.2s ease;
+}
+
+.toggle-input:checked + .toggle-label:before {
+  transform: translateX(100%);
+}
+
+.toggle-input:checked + .toggle-label {
+  background-color: #87CEFA;
+}
