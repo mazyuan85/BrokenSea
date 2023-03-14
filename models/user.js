@@ -8,22 +8,28 @@ const walletSchema = new Schema({
         min: 0,
         required: true
     }
+}, {
+    timestamps: true
 });
 
 const userSchema = new Schema({
     username: {
         type: String,
         required: true,
+        maxlength: 50,
         unique: true
     },
     password: {
         type: String,
+        maxlength: 50,
         required: true
     },
     wallets: {
         type: [walletSchema],
         default: [],
     }
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('User', userSchema);
