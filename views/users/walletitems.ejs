@@ -1,20 +1,42 @@
 <%- include('../partials/header') %>
 
-<h3>Wallet Address: <%=currentWalletId %></h3>
+<div class="w3-row w3-container">
+  <h3>Wallet Address: <%= currentWalletId %></h3>
 
-<ul>
-    <% currentWallet.forEach((collection) => { %>
-      <li><a href="/collections/<%= collection.id %>"><%= collection.name %></a></li>
+  <% currentWallet.forEach((collection) => { %>
+  <div class="w3-row-padding">
+      <div class="w3-col l12">
+          <a href="/collections/<%= collection.id %>">
+              <h3><%= collection.name %></h3>
+          </a>
+      </div>
       <ul>
-        <% collection.nfts.filter((nft) => nft.wallet.toString() === currentWalletId).forEach((nft) => { %>
-            <li>
-                <a href="/collections/<%= collection._id%>/<%= nft._id%>"><%= nft.name %> - <img src="<%= nft.imageUrl %>" width="300"></a>
-                <form action="/collections/<%= collection._id %>/<%= nft._id %>?_method=DELETE" method="POST">
-                    <button type="submit">BURN</button></form>
-            </li>
-        <% }) %>
+          <% collection.nfts.filter((nft) => nft.wallet.toString() === currentWalletId).forEach((nft) => { %>
+          <div class="w3-third w3-margin-bottom" style="max-width: 300px;">
+              <div class="w3-card-4" style="min-height: 500px; position: relative;">
+                  <a href="/collections/<%= collection._id%>/<%= nft._id%>"><img src="<%= nft.imageUrl %>" alt="<%= nft.name %>" style="width:100%"></a>
+                  <div class="w3-container">
+                      <a href="/collections/<%= collection._id%>/<%= nft._id%>">
+                          <h3><%= nft.name %></h3>
+                      </a>
+                      <p><%= nft.description %></p>
+                      <p>
+                          <form action="/collections/<%= collection._id %>/<%= nft._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are you sure you want to burn this NFT? This action is irreversible!')">
+                              <button type="submit">BURN</button>
+                          </form>
+                      </p>
+                      <div style="position: absolute; bottom: 0; width: 91%;">
+                          <p><a href="/collections/<%= collection._id%>/<%= nft._id%>"><button class="w3-button w3-light-grey w3-block">View Item</button></a></p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <% }) %>
       </ul>
-    <% }) %>
-</ul>
+  </div>
+  <% }) %>
+</div>
+
+
 
 <%- include('../partials/footer') %>

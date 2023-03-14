@@ -40,3 +40,17 @@ td {
 .toggle-input:checked + .toggle-label {
   background-color: #87CEFA;
 }
+
+.page-title {
+  margin-top:0;
+}
+
+.nft-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.nft-container img{
+  margin-right: 50px;
+}

@@ -1,54 +1,90 @@
 <%- include('../partials/header') %>
-<h3><a href="/collections/<%=collection._id%>"><%=collection.name%></a></h3>
-<% if (listedStatus) { %>
-<h2>Listed Price: <%=listedPrice %></h2>
-<% } %>
-<div><img src="<%- nft.imageUrl %>" width="500"></div>
-<div>
-    <table>
-        <tr>
-            <th>Description:</th>
-            <td><%= nft.description %></td>
-        </tr>
-        <tr>
-            <th>Attributes:</th>
-            <td><%= nft.attributes %></td>
 
-        </tr>
-        <tr>
-            <th>Owner:</th>
-            <td><%= nft.wallet %></td>
-        </tr>
-    </table>
-</div>
-
-<div>
-    <% if (activeWallet && nft) { %>
-        <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
-            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/list">
-                <input type="number" name="listedPrice" placeholder="your price here">
-                <% if (listedStatus) { %>
-                    <button>Update Price</button>
-                <% } else { %>
-                    <button>List Item</button>
+<div class="w3-row w3-container">
+    <h3><a href="/collections/<%=collection._id%>"><%=collection.name%></a></h3>
+    <% if (listedStatus) { %>
+    <h2>Listed Price: <%=listedPrice %></h2>
+    <% } %>
+    <div class="nft-container">
+        <img src="<%- nft.imageUrl %>" width="500">
+        <table>
+            <tr>
+                <th>Description:</th>
+                <td><%= nft.description %></td>
+            </tr>
+            <tr>
+                <th>Attributes:</th>
+                <td><%= nft.attributes %></td>
+            </tr>
+            <tr>
+                <th>Owner:</th>
+                <td><%= nft.wallet %></td>
+            </tr>
+            <tr>
+                <% if (activeWallet && nft) { %>
+                    <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
+                        <th>List Item:</th>
+                        <td>
+                            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/list">
+                                <input type="number" name="listedPrice" placeholder="your price here">
+                                <% if (listedStatus) { %>
+                                    <button>Update Price</button>
+                                <% } else { %>
+                                    <button>List Item</button>
+                                <% } %>
+                            </form>
+                        </td>
+                    <% } else if (listedStatus) { %>
+                        <th>Buy Item:</th>
+                        <td>
+                            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/buy">
+                                <button <% if (activeWallet.balance < listedPrice) { %>disabled<%}%>>Buy Item</button> 
+                                <% if (activeWallet.balance < listedPrice) { %><h4>You have insufficient balance!</h4><%}%>
+                            </form>
+                        </td>
+                    <% } else { %>             
+                    <% } %>
                 <% } %>
-            </form>
-        <% } else if (listedStatus) { %>
-            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/buy">
-                <button <% if (activeWallet.balance < listedPrice) { %>disabled<%}%>>Buy Item</button> 
-                <% if (activeWallet.balance < listedPrice) { %><h4>You have insufficient balance!</h4><%}%>
-            </form>
-        <% } else { %>             
-        <% } %>
-
-    <% } %>
-    <% if (activeWallet && nft && listedStatus) { %>
-        <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
-            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/delist"><button>Delist Item</button></form> 
-        <% } %>
-    <% } %>
+            </tr>
+            <tr>
+                <% if (activeWallet && (nft.wallet.toString() === activeWallet._id.toString()) && listedStatus) { %>
+                <th>Delist Item:</th>
+                <td>
+                    <% if (nft.wallet.toString() === activeWallet._id.toString()) { %>
+                        <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/delist">
+                            <button>Delist Item</button>
+                        </form> 
+                    <% } %>
+                </td>
+                <% } %>
+            </tr>
+        </table>
+    </div>  
 </div>
 
-  
+<% if (listedItem && (listedItem.transactions.length > 0)) { %>
+<div class="w3-row w3-container">
+    <h3>Past Transactions:</h3>
+    <table>
+        <thead>
+            <th>Date</th>
+            <th>Buyer</th>
+            <th>Seller</th>
+            <th>Price</th>
+        </thead>
+        <tbody>
+            <% listedItem.transactions.forEach(transaction => { %>
+                <tr>
+                    <td><%= transaction.date.toLocaleString() %></td>
+                    <td><%= transaction.buyer %></td>
+                    <td><%= transaction.seller %></td>
+                    <td><%= transaction.price %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+</div>
+<% } %>
 
 <%- include('../partials/footer') %>

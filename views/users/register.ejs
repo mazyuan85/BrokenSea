@@ -1,5 +1,6 @@
 <%- include('../partials/header') %>
 
+<div class="w3-row w3-container">
 <% if (error) { %>
     <h1><%= error %></h1>
 <% } %>
@@ -11,5 +12,6 @@
     <input type="password" name="password" required>
     <input type="submit" value="Register">
 </form>
+</div>
 
 <%- include('../partials/footer') %>

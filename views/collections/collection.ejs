@@ -33,10 +33,10 @@
     <span>Listed Items Only</span>
 </div>
 
-<div class="w3-row-padding" id="about"></div>
+<div class="w3-row-padding" id="about">
 <% collectionArray.forEach((nft) => { %>
     <div class="w3-third w3-margin-bottom item<%= nft.isListed ? "listed" : "" %>" style="max-width: 300px;">
-      <div class="w3-card-4" style="min-height: 550px; position: relative;">
+      <div class="w3-card-4" style="min-height: 500px; position: relative;">
         <a href="/collections/<%= collection._id%>/<%= nft._id%>"><img src="<%= nft.imageUrl %>" alt="<%= nft.name %>" style="width:100%"></a>
         <div class="w3-container">
           <a href="/collections/<%= collection._id%>/<%= nft._id%>"><h3><%= nft.name %></h3></a>

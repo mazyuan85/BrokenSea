@@ -71,9 +71,9 @@ const itemPage = async (req, res) => {
     const user = await User.findById(userId).populate("wallets");
     const activeWalletId = await req.cookies.activeWallet;
     const activeWallet = await user.wallets.find(w => w.id.toString() === activeWalletId)
-    res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft, collection, listedStatus, listedPrice})
+    res.render("collections/item", {title:`${nft.name}`, activeWallet, errorMessage: null, nft, collection, listedStatus, listedPrice, listedItem})
   } else {
-    res.render("collections/item", {title:`${nft.name}`, errorMessage: null, nft, collection, listedStatus, listedPrice})  
+    res.render("collections/item", {title:`${nft.name}`, errorMessage: null, nft, collection, listedStatus, listedPrice, listedItem})  
   }
 };
 

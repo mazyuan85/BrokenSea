@@ -1,14 +1,13 @@
 <%- include('./partials/header') %>
 
-<div class="wrapper" style="background-color: #f2f2f2; padding: 20px 0; margin-top: 15px;">
+<div class="wrapper" style="background-color: #f2f2f2;">
     <div class="w3-container" style="width: 640px; margin: 0 auto; background-color: #f2f2f2; padding: 20px;">
         <% allCollections.forEach((collection) => { %>
             <div class="w3-display-container mySlides">
             <a href="/collections/<%= collection._id%>"><img src="<%= collection.imageUrl %>" style="width:100%"></a>
             </div>
         <% }) %>
-
-    
+  
         <div class="w3-container w3-dark-grey w3-padding w3-xlarge">
             <div class="w3-left" onclick="plusDivs(-1)"><i class="fa fa-arrow-circle-left w3-hover-text-teal"></i></div>
             <div class="w3-right" onclick="plusDivs(1)"><i class="fa fa-arrow-circle-right w3-hover-text-teal"></i></div>
