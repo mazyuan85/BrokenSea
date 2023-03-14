@@ -15,10 +15,10 @@ const register = async (req, res) => {
         return;
     };
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const user = new User({
+    const user = await new User({
         username,
         password: hashedPassword,
-        wallet: { balance : 0 }
+        wallets: [{ balance : 0 }]
     });
     await user.save();
     res.redirect("/users/login");
@@ -40,14 +40,9 @@ const login = async (req, res) => {
         res.render("users/login", { title: "Login Here", error: "Username or Password is wrong!" });
         return;
     }
-    // assume potential security issue here but to what level do we need to secure our project?
     req.session.userId = user._id;
     await req.session.save();
-    // await new Promise((resolve) => {
-    //     req.session.userId = user._id;
-    //     resolve();
-    //   });
-      
+
     res.redirect("/");
 };
 
