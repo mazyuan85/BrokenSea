@@ -1,10 +1,13 @@
 <%- include('../partials/header') %>
 
+<div class="w3-row w3-container">
 <form action="/collections/mint" method="POST">
-  <label>Collection name:</label>
-  <input type="text" name="name" required>
-  <label>Collection image URL:</label>
-  <input type="text" name="imageUrl" required>
+  <label>Collection name:</label>&nbsp;
+  <input type="text" name="name" required style="width: 350px;"><br>
+  <label>Collection image URL:</label>&nbsp;
+  <input type="text" name="imageUrl" required style="width: 350px;"><br>
+  <label>Collection description: </label>&nbsp;
+  <input type="text" name="description" required style="width: 350px;"><br><br>
   
   <div id="nftForms"></div>
 
@@ -16,6 +19,7 @@
     <p><%= errorMessage %></p>
   <% } %>
 </form>
+</div>
 
 <script>
 function addNftForm() {

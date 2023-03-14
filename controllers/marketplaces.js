@@ -41,6 +41,7 @@ const buyItem = async (req, res) => {
     if (activeWallet.balance >= listedPrice) {
         const buyerBalance = await User.findOneAndUpdate( { wallets: { $elemMatch: { _id: activeWalletId}}}, {$inc: { "wallets.$.balance": -listedPrice}})
         const sellerBalance = await User.findOneAndUpdate( { wallets: { $elemMatch: { _id: nft.wallet.toString()}}}, {$inc: { "wallets.$.balance": listedPrice}})
+        const transactionData = await Marketplace.findOneAndUpdate({nft: nftId}, {$push: { "transactions" : [{"buyer": activeWalletId, "seller": nft.wallet.toString(), "price": listedPrice}]  } })
         const updateOwner = await Collection.findOneAndUpdate({ "nfts._id" : nftId}, {$set : { "nfts.$.wallet": activeWallet._id }})
         const delistItem = await Marketplace.findOneAndUpdate({nft: nftId}, {$set : { "listedPrice": 0, "isListed": false }});
     } 

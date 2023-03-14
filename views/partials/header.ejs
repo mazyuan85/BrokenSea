@@ -4,31 +4,73 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
   <title><%= title %></title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <style>
+  html,body,h1,h2,h3,h4 {font-family:"Lato", sans-serif}
+  .mySlides {display:none}
+  .w3-tag, .fa {cursor:pointer}
+  .w3-tag {height:15px;width:15px;padding:0;margin-top:6px}
+</style>
 </head>
 <body>
   <nav>
-    <a href = "/"><img src="/images/brokensea.png" width="80"></a>
-    <span><b>BrokenSea</b></span>
-    <% if (locals.userId) { %>
-      <a href="/collections/mint">Mint Collection</a>
-      <a href="/users/wallet">My Wallets</a>
-      <% if (activeWallet) { %>
-        <div class="active-wallet">
-          <span><%= activeWallet._id %></span>
-          <span><%= activeWallet.balance %></span>
+    <div class="w3-top">
+      <div class="w3-row w3-large w3-light-grey">
+        <div class="w3-col s1">
+          <a href="/" class="w3-button w3-block"><img src="/images/brokensea.png" width="30"></a>
         </div>
-      <% } %>
-      <form action="/users/logout" method="POST">
-        <button type="submit">Logout</button>
-      </form>
-    <% } else { %>
-    <a href="/users/register">Register</a>
-    <a href="/users/login">Login</a>
-    <!-- <a href="/movies/new" <%- title === 'Add Movie' ? 'class="active"' : '' %>>ADD MOVIE</a>
-    <a href="/movies" <%- title === 'All Movies' ? 'class="active"' : '' %>>ALL MOVIES</a> -->
-    <% } %>
+        <div class="w3-col s1">
+          <a href="/" class="w3-button w3-block"><b>BrokenSea</b></a>
+        </div>
+        <div class="w3-col s2">
+          <% if (locals.userId) { %>
+            <a href="/collections/mint" class="w3-button w3-block">Mint Collection</a>
+          <% } %>
+        </div>
+        <div class="w3-col s2">
+          <% if (locals.userId) { %>
+            <a href="/users/wallet" class="w3-button w3-block">My Wallets</a>
+          <% } %>
+        </div>
+        <div class="w3-col s3">
+            <% if (activeWallet) { %>
+                <h6>Wallet: <%= activeWallet._id %></h6>
+            <% } %>
+        </div>
+        <div class="w3-col s1">
+          <% if (activeWallet) { %>
+              <h6>Balance: <b><%= activeWallet.balance %></b></h6>
+          <% } %>
+        </div>
+        <div class="w3-col s2">
+          <% if (locals.userId) { %>
+            <form id="logout-form" action="/users/logout" method="POST">
+              <input type="hidden" name="_method" value="POST">
+              <a href="#" onclick="document.getElementById('logout-form').submit(); return false;" class="w3-button w3-block">Logout</a>
+            </form>
+          <% } %>
+        </div>
+        <div class ="w3-col s2">
+          <% if (!locals.userId) { %>
+              <a href ="/users/register" class="w3-button w3-block">Register</a>
+          <% } %>
+        </div>
+        <div class ="w3-col s2">
+          <% if (!locals.userId) { %>
+              <a href="/users/login" class="w3-button w3-block">Login</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
   </nav>
+  
   <main>
-    <h1><%= title %></h1>
+    <div class="w3-content" style="max-width:1100px;margin-top:80px;margin-bottom:80px"></div>
+      <div class="w3-panel">
+        <h1><%= title %></h1>
+      </div>
