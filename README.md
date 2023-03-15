@@ -26,7 +26,7 @@
 
 ## Overview
 
-![BrokenSea](https://github.com/mazyuan85/BrokenSea/blob/main/public/images/brokensea.png&raw=true)
+![BrokenSea](https://raw.githubusercontent.com/mazyuan85/BrokenSea/main/public/images/brokensea.png)
 
 BrokenSea is a simulation of a NFT marketplace where different individuals come together and trade their NFTs. After a visitor registers an account and logs in, they can perform different actions which include minting their own NFT collection as a creator and putting them up for sale on the marketplace. Other traditional actions include listing, buying, selling, or even burning their NFTs.
 
