@@ -21,7 +21,7 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        maxlength: 50,
+        maxlength: 150,
         required: true
     },
     wallets: {
