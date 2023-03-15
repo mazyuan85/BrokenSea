@@ -37,7 +37,7 @@
                     <% } else if (listedStatus) { %>
                         <th>Buy Item:</th>
                         <td>
-                            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/buy">
+                            <form method="POST" action="/collections/<%= collection._id %>/<%= nft._id %>/buy" onsubmit="return confirm('Are you sure you want to buy this NFT? It will cost you <%= listedPrice %>!')">
                                 <button <% if (activeWallet.balance < listedPrice) { %>disabled<%}%>>Buy Item</button> 
                                 <% if (activeWallet.balance < listedPrice) { %><h4>You have insufficient balance!</h4><%}%>
                             </form>
