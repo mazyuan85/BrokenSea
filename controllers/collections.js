@@ -29,8 +29,8 @@ const collectionPage = async (req, res) => {
   const collectionArray = collectionData.nfts.map(nft => {
     return {
       ...nft,
-      isListed: false, // default value for non-listed items
-      listedPrice: null // default value for non-listed items
+      isListed: false, 
+      listedPrice: null 
     };
   });
 
