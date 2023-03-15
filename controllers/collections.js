@@ -86,7 +86,7 @@ const mintPage = async (req, res) => {
 };
 
 const mintCollection = async (req,res) => {
-  let { name, imageUrl, nftName, nftDescription, nftImageUrl, nftAttributes } = req.body;
+  let { name, imageUrl, description, nftName, nftDescription, nftImageUrl, nftAttributes } = req.body;
   const userId = await req.session.userId;
   const user = await User.findById(userId).populate("wallets");
   const activeWalletId = await req.cookies.activeWallet;
@@ -126,6 +126,7 @@ const mintCollection = async (req,res) => {
   
     const newCollection = new Collection({
       name,
+      description,
       imageUrl,
       creator: user,
       nfts
