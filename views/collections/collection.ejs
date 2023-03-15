@@ -42,11 +42,13 @@
           <a href="/collections/<%= collection._id%>/<%= nft._id%>"><h3><%= nft.name %></h3></a>
           <p class="w3-opacity"><%= nft.description %></p>
           <p>
-            <% if (nft.listedPrice) { %>
-                Listed Price: <%=nft.listedPrice%>
-            <% } else { %>
-                Not Listed
-            <% } %>
+            <b>
+                <% if (nft.listedPrice) { %>
+                    Listed Price: <%=nft.listedPrice%>
+                <% } else { %>
+                    Not Listed
+                <% } %>
+            </b>
           </p>
           <div style="position: absolute; bottom: 0; width: 91%;">
             <p><a href="/collections/<%= collection._id%>/<%= nft._id%>"><button class="w3-button w3-light-grey w3-block">View Item</button></a></p>
