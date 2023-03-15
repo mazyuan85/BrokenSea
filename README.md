@@ -26,13 +26,13 @@
 
 ## Overview
 
-![BrokenSea][https://github.com/mazyuan85/BrokenSea/blob/main/public/images/brokensea.png&raw=true]
+![BrokenSea](https://github.com/mazyuan85/BrokenSea/blob/main/public/images/brokensea.png&raw=true)
 
 BrokenSea is a simulation of a NFT marketplace where different individuals come together and trade their NFTs. After a visitor registers an account and logs in, they can perform different actions which include minting their own NFT collection as a creator and putting them up for sale on the marketplace. Other traditional actions include listing, buying, selling, or even burning their NFTs.
 
 ## Deployment 
 
-This game is deployed on Cyclic: https://mysterious-suspenders-fawn.cyclic.app/
+This game is deployed on Cyclic: XXX
 
 ## Features
 ### Visitor's Point-Of-View
@@ -44,3 +44,5 @@ This game is deployed on Cyclic: https://mysterious-suspenders-fawn.cyclic.app/
 ## References
 
 CSS template used: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_marketing&stacked=h
+Convert MongoDB JSON to SQL: https://sqlizer.io/
+Convert SQL into Database Model Diagram: https://dbdiagram.io/
