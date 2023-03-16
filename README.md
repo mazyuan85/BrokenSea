@@ -28,21 +28,59 @@
 
 ![BrokenSea](https://raw.githubusercontent.com/mazyuan85/BrokenSea/main/public/images/brokensea.png)
 
-BrokenSea is a simulation of a NFT marketplace where different individuals come together and trade their NFTs. After a visitor registers an account and logs in, they can perform different actions which include minting their own NFT collection as a creator and putting them up for sale on the marketplace. Other traditional actions include listing, buying, selling, or even burning their NFTs.
+BrokenSea is a simulation of a NFT marketplace. After a visitor registers an account and logs in, they can perform different actions such as listing, buying, selling, or even burning (destroying) their own NFTs. 
+
+As a creator, a user can also mint their own NFT collection and put them up for sale on the marketplace.
 
 ## Deployment 
 
-This game is deployed on Cyclic: XXX
+This project is deployed on Cyclic: https://mysterious-suspenders-fawn.cyclic.app/
 
-## Features
-### Visitor's Point-Of-View
+## Core Features
 
+![BrokenSeaMainPage](https://raw.githubusercontent.com/mazyuan85/BrokenSea/main/public/images/brokenseamainpage.png)
+
+As a visitor:
+- View all collections
+- View all NFTs, listed prices, and previous transactions
+
+As a user: 
+(in addition to the above)
+- Mint (create) a brand new collection and NFTs
+- Buy, sell, delist, or update price of NFTs
+- Deposit imaginary currency
+- Create multiple wallets within an account
+- Burn (destroy) an NFT
 
 ## Database Model
 
+![DatabaseSchema](https://raw.githubusercontent.com/mazyuan85/BrokenSea/main/public/images/dbdiagram.png)
+
+#### Basic Relationships
+A user can have many wallets.
+A wallet can own many NFTs.
+A NFT collection can have many NFTs.
+The marketplace model keeps track of transactions of each individual NFT.
+
+## Development Process
+
+- Conjured model schematics with basic validation
+- Drew up HTML wireframe
+- Started with registering of users and logging in functions, including hashing of passwords with bcrypt
+- Continued with wallet creation, including the ability to add multiple wallets and deposit imaginary currency
+- Worked on minting a brand new NFT collection associated with a single wallet
+- Created index, collection, single item pages to display NFTs
+- Improved CSS to enhance overall user experience
+- Integrated connect-mongo for proper cookie storage and user auth
+
+## Future Implementations
+
+- More secure validations
+- Transfer NFTs between users
+- Allow user to import NFTs through JSON files
 
 ## References
 
-CSS template used: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_marketing&stacked=h
-Convert MongoDB JSON to SQL: https://sqlizer.io/
-Convert SQL into Database Model Diagram: https://dbdiagram.io/
+- CSS template used: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_marketing&stacked=h
+- Convert MongoDB JSON to SQL: https://sqlizer.io/
+- Convert SQL into Database Model Diagram: https://dbdiagram.io/
