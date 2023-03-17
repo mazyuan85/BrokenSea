@@ -57,10 +57,10 @@ As a user:
 ![DatabaseSchema](https://raw.githubusercontent.com/mazyuan85/BrokenSea/main/public/images/dbdiagram.png)
 
 #### Basic Relationships
-A user can have many wallets.
-A wallet can own many NFTs.
-A NFT collection can have many NFTs.
-The marketplace model keeps track of transactions of each individual NFT.
+- A user can have many wallets.
+- A wallet can own many NFTs.
+- A NFT collection can have many NFTs.
+- The marketplace model keeps track of transactions for each individual NFT.
 
 ## Development Process
 
@@ -81,6 +81,6 @@ The marketplace model keeps track of transactions of each individual NFT.
 
 ## References
 
-- CSS template used: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_marketing&stacked=h
+- CSS template: https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_marketing&stacked=h
 - Convert MongoDB JSON to SQL: https://sqlizer.io/
 - Convert SQL into Database Model Diagram: https://dbdiagram.io/
