@@ -146,6 +146,15 @@ const burnNft = async (req, res) => {
   const collection = await Collection.findById(collectionId);
   const nft = await collection.nfts.find((nft) => nft._id.toString() === nftId);
   const owner = nft.wallet.toString();
+  const userId = req.session.userId;
+  if (!userId) {
+    return res.status(401).send("Unauthorised to use burn function");
+  }
+  const user = await User.findById(userId).populate("wallets");
+  const walletsOwned = user.wallets.map(w => w._id.toString());
+  if (!walletsOwned.includes(owner)) {
+    return res.status(401).send("Unauthorised to use burn function");
+  }
   collection.nfts.pull(nftId);
   await collection.save();
   res.redirect(`/users/wallet/${owner}/`);
